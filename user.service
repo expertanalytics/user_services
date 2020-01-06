@@ -1,0 +1,9 @@
+[Unit]
+Description=Job that manages users according to available ssh keys in the xal internal repo.
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /xal/user_services/add_users.sh
+
+[Install]
+WantedBy=multi-user.target
