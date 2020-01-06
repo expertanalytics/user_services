@@ -26,8 +26,9 @@ cp /etc/nebula/ca.crt /tmp/$1_nebula_cert/
 cd /tmp
 tar -czvf $1_nebula_cert.tar.gz $1_nebula_cert
 age -r "$key" $1_nebula_cert.tar.gz > $1_nebula_cert.tar.gz.age
-mv $1_nebula_cert.tar.gz.age /nebula_age
+
+scp /tmp/$1_nebula_cert.tar.gz.age roberts@192.168.100.1:/home/sally/
 
 # remove unencrypted files
-#rm -rf $1_nebula_cert
-#rm $1_nebula_cert.tar.gz
+rm -rf /tmp/$1_nebula_cert
+rm /tmp/$1_nebula_cert.tar.gz
