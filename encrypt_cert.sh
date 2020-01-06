@@ -11,8 +11,9 @@ if [ ! -f /bin/age ]; then
 fi
 
 #fetch public key for encryption
-key=$( cat /root/internal/pub_keys/$1/*)
+key=$( cat /xal/internal/pub_keys/$1/*)
 subnet_ip=$(($(cat /etc/nebula/client_subnet.number) + 1))
+echo $subnet_ip > /etc/nebula/client_subnet.number
 
 #create nebula cert and keys
 mkdir $1_nebula_cert

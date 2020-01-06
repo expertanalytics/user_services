@@ -2,10 +2,10 @@
 
 #only execute if root
 if [ $(id -u) -eq 0 ]; then
-	cd /root/internal
+	cd /xal/internal
 	git pull
 	#iterate over added ssh keys
-	for dir in /root/internal/pub_keys/*/
+	for dir in /xal/internal/pub_keys/*/
 	do
 		dir=${dir%*/}
 		username=${dir##*/}
@@ -15,7 +15,9 @@ if [ $(id -u) -eq 0 ]; then
 			useradd -m -s /bin/bash $username
 			chown -R $username /home/$username
 			if [ -f /etc/nebula/ca.key ]; then
-				bash /root/user_services/encrypt_cert.sh $username
+				bash /xal/user_services/encrypt_cert.sh $username
+			else
+				bash enable_ssh.sh
 			fi
 		fi
 	done
