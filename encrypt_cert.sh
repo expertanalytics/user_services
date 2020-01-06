@@ -16,14 +16,18 @@ subnet_ip=$(($(cat /etc/nebula/client_subnet.number) + 1))
 echo $subnet_ip > /etc/nebula/client_subnet.number
 
 #create nebula cert and keys
-mkdir $1_nebula_cert
+mkdir /tmp/$1_nebula_cert
 cd /etc/nebula/
 nebula-cert sign -name "$1.laptop" -ip "192.168.100.$subnet_ip/24" -groups "laptop"
 
 #compress and encrypt nebula cert and keys
-mv $1.laptop* tmp/$1_nebula_cert
+mv /etc/nebula/$1.laptop* /tmp/$1_nebula_cert
+cp /etc/nebula/ca.crt /tmp/$1_nebula_cert/
 cd /tmp
 tar -czvf $1_nebula_cert.tar.gz $1_nebula_cert
 age -r "$key" $1_nebula_cert.tar.gz > $1_nebula_cert.tar.gz.age
 mv $1_nebula_cert.tar.gz.age /nebula_age
-rm -rf $1_nebula_cert
+
+# remove unencrypted files
+#rm -rf $1_nebula_cert
+#rm $1_nebula_cert.tar.gz
