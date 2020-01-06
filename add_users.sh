@@ -20,11 +20,11 @@ if [ $(id -u) -eq 0 ]; then
 			if [ -f /etc/nebula/ca.key ]; then
 				bash /xal/user_services/encrypt_cert.sh $username
 			#should be changed to check lighthouse status instead.
-			else
-				fname=${username}_nebula_cert.tar.gx.age
-				if [ ! -f /home/$username/$fname ]; then
-					scp $username@192.168.100.200:/nebula_age/$fname /home/$username/$fname
-				fi
+			#else
+			#	fname=${username}_nebula_cert.tar.gx.age
+			#	if [ ! -f /home/$username/$fname ]; then
+			#		scp $username@192.168.100.200:/nebula_age/$fname /home/$username/$fname
+			#	fi
 			fi
 		fi
 	done
