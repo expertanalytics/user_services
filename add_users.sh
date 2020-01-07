@@ -9,15 +9,15 @@ if [ $(id -u) -eq 0 ]; then
 	do
 		dir=${dir%*/}
 		username=${dir##*/}
+		bash /xal/user_services/enable_ssh.sh $username
 		egrep "$username" /etc/passwd >/dev/null
 		if [ ! $? -eq 0 ]; then
-			echo adding user $username
 			useradd -m -s /bin/bash $username
 			mkdir /home/$username/.ssh
 			chown -R $username /home/$username
 			#add ssh key to authorized_keys
-			bash /xal/user_services/enable_ssh.sh $username
 			if [ -f /etc/nebula/ca.key ]; then
+				usermod -aG docker $username
 				bash /xal/user_services/encrypt_cert.sh $username
 			#should be changed to check lighthouse status instead.
 			#else
