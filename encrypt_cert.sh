@@ -8,6 +8,7 @@ if [ ! -f /bin/age ]; then
 	wget $base/$version/age-$version-linux-amd64.tar.gz
 	tar -xvzf age-$version-linux-amd64.tar.gz
 	mv ./age/* /bin/
+	rm age-$version-linux-amd64.tar.gz
 fi
 
 #fetch public key for encryption
@@ -27,8 +28,8 @@ cd /tmp
 tar -czvf $1_nebula_cert.tar.gz $1_nebula_cert
 age -r "$key" $1_nebula_cert.tar.gz > $1_nebula_cert.tar.gz.age
 
-scp /tmp/$1_nebula_cert.tar.gz.age roberts@192.168.100.1:/home/sally/
+scp /tmp/$1_nebula_cert.tar.gz.age sally@192.168.100.1:/home/sally/
 
 # remove unencrypted files
-rm -rf /tmp/$1_nebula_cert
-rm /tmp/$1_nebula_cert.tar.gz
+wipe -r /tmp/$1_nebula_cert
+wipe /tmp/$1_nebula_cert.tar.gz
