@@ -9,7 +9,6 @@ if [ $(id -u) -eq 0 ]; then
 	do
 		dir=${dir%*/}
 		username=${dir##*/}
-		bash /xal/user_services/enable_ssh.sh $username
 		egrep "$username" /etc/passwd >/dev/null
 		if [ ! $? -eq 0 ]; then
 			useradd -m -s /bin/bash $username
@@ -27,6 +26,7 @@ if [ $(id -u) -eq 0 ]; then
 			#	fi
 			fi
 		fi
+		bash /xal/user_services/enable_ssh.sh $username
 	done
 else
 	echo script must be run as root, exting
