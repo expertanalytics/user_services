@@ -1,5 +1,11 @@
 #! /bin/bash
 
+exec > /var/log/adduser_service.log
+exec 2>&1
+
+
+echo "add_user.sh at: $(date)"
+
 #only execute if root
 if [ $(id -u) -eq 0 ]; then
 	cd /xal/internal
@@ -9,8 +15,10 @@ if [ $(id -u) -eq 0 ]; then
 	do
 		dir=${dir%*/}
 		username=${dir##*/}
+		echo "add_user.sh: check ${username} for dir ${dir}"
 		egrep "$username" /etc/passwd >/dev/null
 		if [ ! $? -eq 0 ]; then
+			echo "add_user.sh: create user ${username}"
 			useradd -m -s /bin/bash $username
 			mkdir /home/$username/.ssh
 			chown -R $username /home/$username
@@ -26,8 +34,9 @@ if [ $(id -u) -eq 0 ]; then
 			#	fi
 			fi
 		fi
+		echo "add_user.sh: update ssh for ${username}"
 		bash /xal/user_services/enable_ssh.sh $username
 	done
 else
-	echo script must be run as root, exting
+	echo "script must be run as root, exting"
 fi
